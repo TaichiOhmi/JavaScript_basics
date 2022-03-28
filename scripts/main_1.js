@@ -86,3 +86,13 @@ document.querySelector('html').onclick = function() {
     //この関数を実行
     alert('Clicked.');
 }
+
+/*
+document.querySelector('html').onclick = function() {};
+
+上の１行と、下の2行は同義。
+
+let myHTML = document.querySelector('html');
+myHTML.onclick = function() {};
+*/
+
