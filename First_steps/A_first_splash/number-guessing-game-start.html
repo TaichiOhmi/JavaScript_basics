@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Number guessing game</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>数字あてゲーム</h1>
+
+    <p>１から１００までの数値を当てなさい！<br>１０回目までに当てないとゲームオーバーです。<br>１回答えるごとにその予測より正解が高いか低いかだけ教えるので頑張って！</p>
+
+    <div class="form">
+      <label for="guessField">予想を入力: </label>
+      <input type="text" id="guessField" class="guessField">
+      <input type="submit" value="送信" class="guessSubmit">
+    </div>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
+    </div>
+
+    <script>
+
+        /*
+        Math.random()関数は、 0 以上 1 未満 (0 は含むが、 1 は含まない) の範囲で浮動小数点の擬似乱数を返す。
+        Math.random()
+        > 0.2718911410770908
+        Math.random()*100
+        > 20.953006880540627
+
+        Math.floor() 関数は与えられた数値以下の最大の整数を返す。
+        Math.floor(23.553253)
+        > 23
+        Math.floor(86.532312)
+        > 86
+
+        つまり、random()にランダムな小数を返させて、それに100をかけて1~100の数字にし、その数字以下の整数をfloor()で返させている。
+        */
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        // HTML要素のクラスをquerySelectorで指定して代入 (定数)
+        const guesses = document.querySelector('.guesses');
+        const lastResult = document.querySelector('.lastResult');
+        const lowOrHi = document.querySelector('.lowOrHi');
+
+        // submit
+        const guessSubmit = document.querySelector('.guessSubmit');
+        // input
+        const guessField = document.querySelector('.guessField');
+
+        // 変数
+        let guessCount = 1;
+        let resetButton;
+
+
+
+        function checkGuess() {
+            
+            //関数として使用された場合、 Number(value) は文字列やその他の値を Number 型に変換し、値が変換できない場合は、 NaN を返します。
+            
+            // userGuess に Number()を使ってinputに入力された値を数値にする。(文字でも進む)
+            let userGuess = Number(guessField.value);
+
+            // もし、guessCountが１(予想が初めて)なら、
+            if (guessCount === 1) {
+                // 前回の予想: を出力。
+                guesses.textContent = '前回の予想: ';
+            }
+            // 今回予想した数字を出力文字列に加える。
+            guesses.textContent += userGuess + ' ';
+
+            // もし、usdrGuess と randomNumber が(予測値と正解値が)同じなら、
+            if (userGuess === randomNumber) {
+                lastResult.textContent = 'おめでとう! '+ guessCount + '回目で正解です!';
+                lastResult.style.backgroundColor = 'green';
+                lowOrHi.textContent = '';
+                setGameOver();
+
+              // もし、カウントが　10 なら、
+            } else if (guessCount === 10) {
+                lastResult.textContent = '!!!ゲームオーバー!!!';
+                setGameOver();
+
+              // それ以外の場合、(予測値と正解値が異なり、カウントが10ではない)
+            } else {
+                lastResult.textContent = '間違いです!';
+                lastResult.style.backgroundColor = 'red';
+
+                // 予測値が正解より大きい時、
+                if(userGuess < randomNumber) {
+                    lowOrHi.textContent='今の予想は小さすぎです!' ;
+                // 予測値が正解より小さい時、
+                } else if(userGuess > randomNumber) {
+                    lowOrHi.textContent = '今の予想は大きすぎです!';
+                }
+            }
+
+            // カウント + 1
+            guessCount++;
+
+            // input フィールドを初期化
+            guessField.value = '';
+
+            // input フィールドにフォーカス
+            guessField.focus();
+        }
+
+
+        /*
+        ここまでではまだ関数を呼び出していないから、動かない。
+        →イベントを使う。
+        イベントでは、ボタンが押されたり、ページが読み込まれたり、ビデオを再生したりといったブラウザーで起きることで、それに反応してコードを実行させることができる。イベントが発生したことを聞き取る構成がイベントリスナーで、発生したイベントに反応して実行されるコードブロックがイベントハンドラーです。
+        
+        以下では、guessSubmit ボタンに対して、イベントリスナーを追加。
+        これは発生したことを知りたい
+        イベントの種類 (この場合は click)と、
+        イベントが発生した場合に実行するコード (この場合は checkGuess()) 
+        の 2 つの引数を取る。(addEventListener()の中では関数括弧を書く必要はない。)
+        */
+        guessSubmit.addEventListener('click', checkGuess);
+
+
+
+        function setGameOver() {
+
+            // guessField と guessSubmit を disabled にする。(そのままユーザーが進めないようにするため)
+            guessField.disabled = true;
+            guessSubmit.disabled = true;
+
+            // 新しい <button> 要素を生成。
+            resetButton = document.createElement('button');
+            // 作成した<button>要素のラベルに"新しいゲームを始める"という文を設定
+            resetButton.textContent = '新しいゲームを始める';
+            // 設定した <button>要素をHTMLに追加。
+            document.body.appendChild(resetButton);
+            // 追加した <button>要素にイベントを追加。
+            resetButton.addEventListener('click', resetGame);
+        }
+
+        function resetGame() {
+            // countを1にリセット
+            guessCount = 1;
+
+            // resetParas に .resultParasクラス内の pタグの中身を入れる。
+            const resetParas = document.querySelectorAll('.resultParas p');
+
+            // resetParas の 分だけ for文 で 繰り返し処理
+            for (let i = 0 ; i < resetParas.length ; i++) {
+
+                // resetParas の i 番目の中身を空に。
+                resetParas[i].textContent = '';
+            }
+
+            /*
+            リセットボタンを削除。(ノードがツリーの中にある場合は、ツリーから取り除く)
+            parentNode は 親要素とごと読み込む。 childNodesなどもある。
+            removeChild() では、子ノードを DOM から取り除き、取り除いたノードを返す。
+            */
+            resetButton.parentNode.removeChild(resetButton);
+
+            // guessField と guessSubmit の disabled を false にする。(inputとsubmitボタンを有効にする)
+            guessField.disabled = false;
+            guessSubmit.disabled = false;
+            // input フィールドを空にして、そこにフォーカスする。
+            guessField.value = '';
+            guessField.focus();
+
+            // lastResult の 背景を白に戻す。
+            lastResult.style.backgroundColor = 'white';
+
+            // randomNumber を 更新。
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+        }
+
+
+
+
+        // ループ
+        //for (let i = 1 ; i < 21 ; i++) { console.log(i) }
+
+
+    </script>
+  </body>
+</html>
