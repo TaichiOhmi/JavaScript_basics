@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>variables</title>
+</head>
+<body>
+
+    <button>押してください</button>
+
+    <script>
+        // button という変数に querySelector を使って button要素を 格納。
+        const button = document.querySelector('button');
+
+        // button の変数の中身がクリックされた時、次の関数を動かす
+        button.onclick = function() {
+
+          // 関数の中身
+          // name という変数に prompt で入力された内容を格納
+          let name = prompt('あなたの名前は何ですか？');
+          // 文字列とconcatenateして name 表示
+          alert('こんにちは、' + name + 'さん、初めまして！');
+
+        }
+
+
+        let myName;
+        let myAge;
+        myName;//undefined
+        myAge;//undefined
+
+        scoobyDoo; // error 
+
+
+    </script>
+</body>
+</html>
