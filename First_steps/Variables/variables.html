@@ -26,14 +26,114 @@
         }
 
 
-        let myName;
-        let myAge;
+        // let myName;
+        // let myAge;
         myName;//undefined
         myAge;//undefined
 
         scoobyDoo; // error 
 
 
+        myName = 'Chris';//変数の初期化
+        myAge = 37;//渡したい値を入れる
+
+        myName;// 'Chris'
+        myAge;//37
+
+        let myDog = 'Rover'; //変数の宣言と初期化を一度にすることもできます。
+
+        /*
+        なぜ var と let があるのか。
+
+        その理由はやや歴史的なものです。
+        JavaScript が最初に作成されたときには、var しかありませんでした。
+        ほとんどの場合、基本的にはうまく機能しますが、その機能にはいくつかの問題があります。
+        その設計は時々混乱したり、実に迷惑になることがあります。
+        そこで、let を最新のバージョンの JavaScript で作成しました。
+        これは、var とは多少異なる動作をする変数を作成するための新しいキーワードで、その過程での問題を修正しています。
+
+        はじめに、変数を宣言して初期化する複数行の JavaScript プログラムを作成した場合、変数を初期化した後で実際に変数を var で宣言することができます。例えば：
+        */
+
+        myName = 'Chris';
+
+        function logName() {
+        console.log(myName);
+        }
+
+        logName();
+
+        var myName;
+
+        /*
+        これは巻き上げのために動作します。件名に関する詳細については var の巻き上げを読んでください。
+
+        巻き上げはもはや let で動作しません。上記の例で var を let に変更すると、エラーで失敗します。
+        これは良いことです - 変数を初期化した後に宣言すると混乱しやすくなり、コードを理解するのが難しくなります。
+
+        */
+        
+        
+        //第二に、var を使用するとき、好きなだけ同じ変数を何度でも宣言することができます.
+        var myName = 'Chris';
+        var myName = 'Bob';
+        
+        //しかし let ではできません。次のようにします。
+        let myName = 'Chris';
+        let myName = 'Bob'; //エラー
+        //代わりにこのようにする。
+        let myName = 'Chris';
+        myName = 'Bob';
+
+
+        /* データ型　*/
+
+        //数値型
+        let myAge = 17;
+        //文字列型
+        let dolphinGoodbye = 'So long and thanks for all the fish';
+        //真偽値
+        let iAmAlive = true;
+        let test = 6 < 3;
+        //配列
+        let myNameArray = ['Chris', 'Bob', 'Jim'];
+        let myNumberArray = [10, 15, 40];
+        myNameArray[0]; // 'クリス'と表示されます
+        myNumberArray[2]; // 40 と表示されます
+
+        //オブジェクト
+        let dog = { name : 'ポチ', breed : 'ダルメシアン' };
+        dog.name//ポチ
+
+
+        /* 動的型付け */
+        /* 
+        JavaScript は「動的型付け言語」であり、格納するデータ型 (数値や文字列や配列など ) を変数に対して指定する必要のない言語です。
+
+        たとえば、もし変数を宣言して、クォーテーションマークで囲んだ値を渡すとします。すると、ブラウザーはこれを文字列として扱うでしょう。
+        それが数字を含んでいたとしても、文字列になってしまうので、気を付けてください。
+        */
+        let myString = 'Hello';
+
+        let myNumber = '500'; // oops, this is still a string
+        typeof myNumber; // string
+
+        myNumber = 500; // much better — now this is a number
+        typeof myNumber; // number
+
+        /* 定数 */
+        /*
+        一度宣言されると変更できない値。
+        セキュリティ (サードパーティのスクリプトによってこのような値が変更された場合に問題が発生する可能性がある) やデバッグ、
+        コードの理解 (変更してはいけない値を誤って変更して混乱する) まで、実行するさまざまな理由があります。
+
+        JavaScript の初期の頃は、定数は存在しませんでした。
+        現代の JavaScript では、const というキーワードがあります。これにより、絶対に変更できない値を格納できます。
+        */
+        const daysInWeek = 7;
+        const hoursInDay = 24;
+
+        daysInWeek = 8; // 定数は変更できないのでエラー
     </script>
 </body>
 </html>
