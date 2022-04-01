@@ -106,3 +106,33 @@ output = `I like the song "${ song }".
 I gave it a score of ${ score/highestScore * 100 }%.`;
 
 'I like the song "Fight the Youth".\nI gave it a score of 90%.'
+
+
+
+
+//test
+
+const quoteStart = "Don't judge each day by the harvest you reap";
+const quoteEnd = ", but the seeds that you plant.";
+const finalQuote = quoteStart + quoteEnd;
+
+
+const quote = 'I do not like green eggs and ham. I do not like them, Sam-I-Am.';
+const substring = 'green eggs and ham';
+quoteLength = quote.length
+index =quote.indexOf('substring');
+revisedQuote = quote.slice(0,33);
+
+
+const quote2 = 'I dO nOT lIke gREen eGgS anD HAM';
+fixedQuote = quote.slice(0,1) + quote.slice(1,50).toLowerCase();
+fixedQuote.replace('green eggs and ham','people who ignored traffic light');
+finalQuote = fixedQuote + '.'
+
+
+const theorem = 'Pythagorean theorem';
+const a = 5;
+const b = 8;
+
+const myString2 = `Using ${theorem}, we can work out that that if the two shortest sides of a right-angled triangle have lengths of ${a} and ${b}, the length of the hypotenuse is ${a**2 + b**2}.`;
+// 三平方の定理(ピタゴラスの定理)を使って、直角三角形の最短の2辺の長さが5と8のとき、斜辺の長さは5**2＋8**2であることが計算できる。
