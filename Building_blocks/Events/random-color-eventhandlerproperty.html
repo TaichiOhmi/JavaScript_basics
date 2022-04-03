@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Random color example — event handler property</title>
+    <style>
+      button {
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <button>Change color</button>
+
+    <!-- インラインイベントハンドラー -->
+    <!-- これらは使っちゃだめ！！ 古いし。非効率 -->
+    <button onclick="bgChange()">Press me</button>
+    <button onclick="alert('Hello, this is my old-fashioned event handler!');">Press me</button>
+    <!--  -->
+
+    <form>
+        <div>
+          <label for="fname">First name: </label>
+          <input id="fname" type="text">
+        </div>
+        <div>
+          <label for="lname">Last name: </label>
+          <input id="lname" type="text">
+        </div>
+        <div>
+           <input id="submit" type="submit">
+        </div>
+      </form>
+      <p></p>
+    <script>
+      const btn = document.querySelector('button');
+
+      function random(number) {
+        return Math.floor(Math.random()*number);
+      }
+
+      function bgChange() {
+        const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+        document.body.style.backgroundColor = rndCol;
+      }
+
+      // イベントハンドラープロパティ
+      btn.onclick = bgChange;
+
+
+        // 
+        btn.onclick = function() {
+            const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+            document.body.style.backgroundColor = rndCol;
+        }
+        // 
+        // 上下の書き方は同じ
+        // 
+        function bgChange() {
+            const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+            document.body.style.backgroundColor = rndCol;
+        }
+        btn.onclick = bgChange;
+        // 
+
+        function bgChange() {
+            const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+            document.body.style.backgroundColor = rndCol;
+        }
+
+        // ページにボタンがいくつあろうが、全部のボタンにイベントハンドラーを追加するのは簡単。
+        const buttons = document.querySelectorAll('button');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].onclick = bgChange;
+        }
+
+        
+        buttons.forEach(function(button) {
+            button.onclick = bgChange;
+        });
+
+
+        // NodeList オブジェクト
+        // ノードの集合であり、 Node.childNodes などのプロパティや document.querySelectorAll() などのメソッドの返値として用いられます。
+
+        // NodeList.prototype.forEach()
+        //NodeList インターフェースにおける forEach() メソッドは、引数に渡されたコールバックをリストの各値のペアに対して 1 度ずつ挿入順で呼び出します。
+        // 指定された関数を NodeList の各要素に対して実行し、その要素を関数の引数として渡します。
+
+
+
+        // addEventListener() と removeEventListener()
+        //addEventListener()
+        const btn = document.querySelector('button');
+
+        function bgChange() {
+            const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+            document.body.style.backgroundColor = rndCol;
+        }
+        btn.addEventListener('click', bgChange);
+        // もしくは、addEventListenerの引数にそのまま無名関数を書くこともできる。
+        btn.addEventListener('click', function() {
+            const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+            document.body.style.backgroundColor = rndCol;
+        });
+
+        // addEventListener の良い点
+        // 1つ目
+        // addの逆を行なう関数 removeEventListener()があり、以前に追加したリスナーを削除できる。
+        btn.removeEventListener('click', bgChange);
+        // 2つ目
+        // 同じリスナーに複数のハンドラーを登録できる。
+        myElement.onclick = functionA;// 今まではこの書き方しかなかったが、
+        myElement.onclick = functionB;// この書き方では 2行目が一行目を上書きしてしまうので複数登録はできない。
+        myElement.addEventListener('click', functionA);// しかし、この書き方では
+        myElement.addEventListener('click', functionB);// どちらの関数も動かすことができる。
+
+
+        // Event objects
+        // ときどきイベントハンドラー関数内で event、evt、単に e などと名付けられた引数を見かけるかもしれません。
+        // これらはイベントオブジェクトと呼ばれ、イベントの追加機能や情報を提供する目的でイベントハンドラーに自動的に渡されます。
+
+        function bgChange(e) {
+            const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+            // e はイベントのことで、e.targetでイベントが生じた要素を指す。
+            e.target.style.backgroundColor = rndCol;
+            console.log(e);
+        }
+        btn.addEventListener('click', bgChange);
+        /* 
+        イベントオブジェクト e が関数に含まれていて、
+        関数内で e.target (ボタンそのもの) の背景色スタイルを設定しているのがわかる。
+        イベントオブジェクトの target プロパティは、常にイベントが生じた要素への参照となっています。
+        ですからこの例ではページではなくボタンの背景色がランダムに変わります。
+        */
+
+        const divs = document.querySelectorAll('div');
+
+        for (let i = 0; i < divs.length; i++) {
+            divs[i].onclick = function(e) {
+                e.target.style.backgroundColor = bgChange();
+            }
+        }
+
+
+        //ここでは onsubmit (en-US) (フォームがサブミットされるとサブミットイベントが発火する)の中で、テキストフィールドが空かどうかテストするだけのとても簡単なチェックを実装します。
+        // もし空なら、イベントオブジェクトの preventDefault() 関数(これでフォームの送信を抑制)を呼び、それからフォームの下にあるパラグラフに、何が問題なのかユーザーに伝えるためのエラーメッセージを表示
+        const form = document.querySelector('form');
+        const fname = document.getElementById('fname');
+        const lname = document.getElementById('lname');
+        const para = document.querySelector('p');
+
+        form.onsubmit = function(e) {
+            if (fname.value === '' || lname.value === '') {
+                e.preventDefault();
+                para.textContent = 'You need to fill in both names!';
+            }
+        }
+
+
+        // イベントのバブリングとキャプチャリング
+        /*ここで最後に説明していくのは、滅多には遭遇しませんが、理解できていないととても苦痛になるかもしれない事柄です。
+        ある一つの要素で同じイベントに紐付く二つのハンドラが活性化された時に何が起きるのかを説明するのが、イベントのバブリングとキャプチャリングという二種類のメカニズムです。
+        わかりやすくするために次の例を見てください — show-video-box.html 例を新しいタブで開いてください (ソースコード もまた別のタブに)。ライブでも下で見られます
+        */
+    </script>
+  </body>
+</html>

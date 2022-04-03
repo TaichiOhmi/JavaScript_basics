@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Show video box example</title>
+    <style>
+      div {
+        position: absolute;
+        top: 70%;
+        transform: translate(-50%,-50%);
+        width: 480px;
+        height: 380px;
+        border-radius: 10px;
+        background-color: #eee;
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.1));
+      }
+
+      .hidden {
+        left: -50%;
+      }
+
+      .showing {
+        left: 50%;
+      }
+
+      div video {
+        display: block;
+        width: 400px;
+        margin: 40px auto;
+      }
+
+    </style>
+  </head>
+  <body>
+    <button>Display video</button>
+
+    <div class="hidden">
+      <video>
+        <source src="rabbit320.mp4" type="video/mp4">
+        <source src="rabbit320.webm" type="video/webm">
+        <p>Your browser doesn't support HTML5 video. Here is a <a href="rabbit320.mp4">link to the video</a> instead.</p>
+      </video>
+    </div>
+
+    <script>
+
+      const btn = document.querySelector('button');
+      const videoBox = document.querySelector('div');
+
+      // <button> がクリックされると、<div> のクラス属性を hidden から showing に変更するので、ビデオが表示されます(例の CSS にこの二つのクラスが含まれており、それぞれはボックスの位置をスクリーンの外、内にします)。
+      function displayVideo() {
+        // videoBox(<div>)のgetAttribute(要素の指定された属性(class)の値を返す)で返された値が'hidden'なら、
+        if (videoBox.getAttribute('class') === 'hidden') {
+          // videoBox(<div>)のclass属性に'showing'を追加。
+          videoBox.setAttribute('class','showing');
+        }
+      }
+      btn.addEventListener('click', displayVideo);
+
+
+      // では二つばかり onclick イベントハンドラーを追加します 
+      // — 最初のは <div> に、二つ目は <video>にです。
+      //ビデオの外側の <div> 領域がクリックされた時にはボックスがまた隠れるようにし、ビデオそのものがクリックされたらビデオが再生されるようにしたいというわけです。
+      videoBox.addEventListener('click', () => videoBox.setAttribute('class', 'hidden'));
+      const video = document.querySelector('video');
+      /*
+      video.addEventListener('click', () => video.play());
+      // これを下のようにすると、問題を防げる。
+      video.onclick = function(e) {
+        e.stopPropagation();
+        video.play();
+      };
+      */
+
+      video.addEventListener('click', e => {
+        e.stopPropagation();
+        video.play();
+      });
+      
+      // しかし、ここで問題が 
+      //— 今度はビデオをクリックすると再生が始まりますが、それと同時に<div>が隠されるようになってしまいました。
+      //ビデオが <div> の中にあるので(ビデオは div の一部ですから)、ビデオのクリックは上に挙げた両方のイベントハンドラーを実際に動かします。
+
+    /**
+     * バブリングとキャプチャリングの説明
+     * 
+     * 親要素を持つ要素 (このケースでは <video> ) においてイベントが発火すると、モダンブラウザーは二つの異なる段階に分けて動作します — キャプチャリングする段階とバブリングする段階です。
+     * 
+     * キャプチャリングの段階で行われることは.....
+     * 要素の最上位の親要素 (<html> に onclick イベントハンドラーがキャプチャリング段階に登録されているか調べ、あればそれを実行します。
+     * 次に <html> 要素の内側の要素に移って同じ事をし、また次の内側の要素にと、実際にクリックされた要素に到達するまで繰り返されます。
+     * 
+     * バブリングの段階では、全く逆の事が起きます。.....
+     * ブラウザーは実際にクリックされた要素の onclick イベントハンドラーがバブリング段階に登録されていれば、それを実行します。
+     * 次に直上の親要素に移動して同じ事をし、また次へ、<html> 要素に到達するまで繰り返します。
+     * 
+     * モダンブラウザーのデフォルトでは、全てのイベントハンドラーはバブリング段階に登録されます。
+     * ですのでこの例の場合では、ビデオをクリックするとクリックイベントは <video> 要素から外側の <html> 要素に進んで (バブリングして) いきます。
+     * 従って:
+     * video.onclick... ハンドラーがあるので実行し、最初ビデオが始まります。
+     * videoBox.onclick... ハンドラーがあるので実行し、よってビデオも隠されます。
+     * 
+     * 困った動作ですが、解決する方法があります! 
+     * 標準的なイベントオブジェクトには stopPropagation()という関数があって、
+     * ハンドラーのイベントオブジェクトで起動されると、このハンドラーは実行されますが、イベントが上位に伝播しないようにするので、これ以上のハンドラーは実行されなくなります。
+     * 
+     * デフォルトでイベントハンドラーはバブリング段階に登録され、そしてほとんどの場合はこれが妥当です。
+     * もし本当にイベントをキャプチャリング段階の方に登録したいのであれば、addEventListener()を使って、省略可能な第三引数に true を指定すれば実現できます。
+     */
+    </script>
+    <img src="https://mdn.mozillademos.org/files/14075/bubbling-capturing.png" alt="バブリングとキャプチャリングの説明" style="width:100%;">
+  </body>
+</html>
