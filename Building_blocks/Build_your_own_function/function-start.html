@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Function start</title>
+    <style>
+      .msgBox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 242px;
+        background: #eee;
+      }
+
+      .msgBox p {
+        line-height: 1.5;
+        padding: 10px 20px;
+        color: #333;
+        padding-left: 82px;
+        background-position: 25px center;
+        background-repeat: no-repeat;
+      }
+
+      .msgBox button {
+        background: none;
+        border: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 1.1rem;
+        color: #aaa;
+      }
+
+    </style>
+  </head>
+  <body>
+    <button>Display message box</button>
+
+    <script>
+        function displayMessage(msgText, msgType) {
+
+            // document.querySelector() と呼ばれる DOM API 関数を使って <html> 要素を html という名前の定数に保存。
+            const html = document.querySelector('html');
+
+
+            // DOM API 関数 document.createElement() を使い、<div> 要素を作成。
+            // これへの参照を panel という定数に保存しています。この要素は我々のメッセージボックスの外枠となっていきます。
+            const panel = document.createElement('div');
+            // DOM API 関数 Element.setAttribute() を使って、 class 属性とその値 msgBox を設定。
+            panel.setAttribute('class', 'msgBox');
+            // html 変数の DOM 関数 Node.appendChild() で一つの要素を別の要素の子として組み入れる。
+            // panel という<div> 要素を子として、<html> 要素の中に追加。
+            html.appendChild(panel);
+
+
+            // msg という変数に p要素 を作成して格納
+            const msg = document.createElement('p');
+            // msg という<p>の中身である textContentプロパティに 文字列 を設定
+            //msg.textContent = 'This is a message box';
+            msg.textContent = msgText;
+            // msg という<p>要素を、panel(<div>)の中に追加。
+            panel.appendChild(msg);
+
+            // closeBtn という変数に <button> を作成。
+            const closeBtn = document.createElement('button');
+            // <buttton> の textContent を 'x' に設定
+            closeBtn.textContent = 'x';
+            // closeBtn という <button> 要素を panel(<div>)の中に追加。
+            panel.appendChild(closeBtn);
+
+            // closeBtn がクリックされた時に発動する関数を定義、
+            closeBtn.onclick = function() {
+                // panel(<div>) の親要素から、panel(<div>)を削除。 Node.removeChild() DOM API関数を使用。
+                panel.parentNode.removeChild(panel);
+            }
+
+            // msgType が 'warning' の時、
+            if (msgType === 'warning') {
+                // msg の background-image に warning.png が設定される。
+                msg.style.backgroundImage = 'url(icons/warning.png)';
+                // panel(<div>) の背景色は red になる。
+                panel.style.backgroundColor = 'red';
+            
+            // msgType が 'chat' の時、
+            } else if (msgType === 'chat') {
+                // msg の background-image に chat.png が設定される。
+                msg.style.backgroundImage = 'url(icons/chat.png)';
+                // panel(<div>) の背景色は aqua になる。
+                panel.style.backgroundColor = 'aqua';
+
+            // msgType が　それ以外の時、
+            } else {
+                // msg の padding-left が 20px に設定される。
+                msg.style.paddingLeft = '20px';
+            }
+
+        }
+
+        //displayMessage();
+        // btn という変数に <button> を格納。
+        const btn = document.querySelector('button');
+        // btn がクリックされた時、displayMessage を呼び出す
+        //btn.onclick = displayMessage;
+        btn.onclick = function() {
+            displayMessage('Woo, this is a different message!');
+        };
+        /*
+
+            関数名の後ろに括弧が含まれていないのはなぜでしょうか。
+            これは、ボタンがクリックされた後にのみ関数を呼び、ページを開いてすぐには呼びたくないからです。
+            
+            行を次の行に変更し、保存して再読み込みすると、
+            btn.onclick = displayMessage();
+
+            ボタンをクリックせずにメッセージボックスが表示されます。
+            このコンテキストの括弧は「関数呼び出し演算子」と呼ばれることがあります。
+            現在のスコープですぐに関数を実行する場合にのみ使用します。
+            同様の点で、匿名関数内のコードは関数スコープ内にあるため、すぐには実行されません。
+
+        */
+
+
+    </script>
+  </body>
+</html>
+
+
+<!-- 
+
+    Test 1
+
+const names = ['Chris', 'Li Kang', 'Anne', 'Francesca', 'Mustafa', 'Tina', 'Bert', 'Jada']
+const para = document.createElement('p');
+
+// Add your code here
+function chooseName(num) {
+    para.textContent = names[num];
+}
+chooseName();
+// Don't edit the code below here!
+
+section.innerHTML = ' ';
+
+section.appendChild(para);
+    
+
+    Test 2
+
+const names = ['Chris', 'Li Kang', 'Anne', 'Francesca', 'Mustafa', 'Tina', 'Bert', 'Jada']
+const para = document.createElement('p');
+
+// Add your code here
+function random(){
+    return Math.floor(Math.random()*names.length);
+}
+para.textContent = names[random()];
+// Don't edit the code below here!
+
+section.innerHTML = ' ';
+
+section.appendChild(para);
+    
+
+ -->
