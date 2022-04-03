@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Function library example</title>
+  <style>
+    input {
+      font-size: 2em;
+      margin: 10px 1px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <input class="numberInput" type="text">
+  <p></p>
+
+  <script>
+    const input = document.querySelector('.numberInput');
+    const para = document.querySelector('p');
+
+    // ２乗を返す
+    function squared(num) {
+        return num * num;
+    }
+
+    // ３乗を返す
+    function cubed(num) {
+        return num * num * num;
+    }
+
+    // 階乗を返す
+    function factorial(num) {
+        // 0 以下の時、undefined
+        if (num < 0) return undefined;
+        // 0 の時、1
+        if (num == 0) return 1;
+        // num - 1 を x に代入
+        let x = num - 1;
+        // x が 1以上の時、
+        while (x > 1) {
+            // num に x(num-1) をかける
+            num *= x;
+            // x = x - 1
+            x--;
+        }
+        return num;
+    }
+
+    // input(.numberInput) が変更された時に発動する関数を定義。
+    input.onchange = function() {
+        // num に input の value 入れる。
+        const num = input.value;
+
+        // num が Number じゃない時、
+        if (isNaN(num)) {
+            // para(<p>) に文字列を格納
+            para.textContent = 'You need to enter a number!';
+        // それ以外(num が Number)の時、
+        } else {
+            para.textContent =  num + ' squared is ' + squared(num) + '. ' +
+                                num + ' cubed is ' + cubed(num) + '. ' +
+                                num + ' factorial is ' + factorial(num) + '.';
+        }
+    }
+  </script>
+</body>
+</html>
+
+<!-- 
+    isNaN() 関数は引数が NaN (非数) かどうかを判定します。
+    isNaN 関数の型強制は意外なものになる可能性があるため、他の Number.isNaN() を使用した方が良いかもしれません。
+    渡された値が NaN である場合は true を返し, そうでなければ false を返します。
+ -->
