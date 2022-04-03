@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Function scope example</title>
+</head>
+<body>
+
+  <script>
+    const x = 1;
+
+    /* 1
+    function a() {
+      const y = 2;
+    }
+    function b() {
+      const z = 3;
+    }
+    output(y); // エラー
+    output(z); // エラー
+    */
+
+    /* 2
+    function a() {
+        let y = 2;
+        output(y);
+    }
+    function b() {
+        let z = 3;
+        output(z);
+    }
+    output(y); // 2
+    output(z); // 3
+    */
+
+    /* 3
+    function a() {
+        let y = 2;
+        output(x);
+    }
+    function b() {
+        let z = 3;
+        output(x);
+    }
+    output(y); // 1
+    output(z); // 1
+    */
+
+    /* 4
+    function a() {
+        let y = 2;
+        output(y);
+    }
+    function b() {
+        let z = 3;
+        output(z);
+    }
+    a(); // 2
+    b(); // 3
+    */
+
+    /* 5
+    function a() {
+        let y = 2;
+        output(x);
+    }
+    function b() {
+        let z = 3;
+        output(x);
+    }
+    a(); // 1
+    b(); // 1
+    */
+
+    /*
+    function a() {
+        let y = 2;
+        output(z);
+    }
+    function b() {
+        let z = 3;
+        output(y);
+    }
+    a(); // エラー
+    b(); // エラー
+    */
+
+    function output(value) {
+    // create p element 
+      const para = document.createElement('p');
+    // append parameter to body
+      document.body.appendChild(para);
+    // Assign a new string containing ${value} to the content of para
+      para.textContent = `Value: ${value}`;
+    }
+  </script>
+</body>
+</html>
