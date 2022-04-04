@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Object-oriented JavaScript example</title>
+  </head>
+
+  <body>
+    <p>This example requires you to enter commands in your browser's JavaScript console (see <a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_are_browser_developer_tools">What are browser developer tools</a> for more information).</p>
+
+    <button>button</button>
+  </body>
+
+    <script>
+        const person = {
+            //name: ['Bob', 'Smith'], 
+            // 上は、name[0]とname[1]で呼べるが、
+            // 下は、name.firstとname.lastで呼ばないとundefined
+            // person['age'] や person['name']['first']でも可
+            name : {
+                first: 'Bob',
+                last: 'Smith'
+            },
+            age: 32,
+            gender: 'male',
+            interests: ['music', 'skiing'],
+            bio: function() {
+                alert(this.name[0] + ' ' + this.name[1] + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+            },
+
+            // "this" とは何か
+            greeting: function() {
+                alert('Hi! I\'m ' + this.name[0] + '.');
+                // この this キーワードはそれが書かれている現在のオブジェクトを参照している。
+                // なので、この場合では  person を指す。
+            }
+        };
+
+        // メンバー(プロパティやメソッド)の変更
+        person.age = 45;
+        person['name']['last'] = 'Cratchit';
+        // person.age
+        // person['name']['last']
+        // メンバー(プロパティやメソッド)の追加
+        person['eyes'] = 'hazel';
+        person.farewell = function() { alert("Bye everybody!"); }
+        // person['eyes']
+        // person.farewell()
+
+
+        // 角括弧では、メンバーの値を設定できるだけでなく、メンバーの名前も追加できる。
+        // 例えば、ユーザーの情報として 2 つのテキストフィールドに名前と値を入力してもらい、人により個別のデータを設定したいとします。
+        let myDataName = nameInput.value; // インプットからの名前
+        let myDataValue = nameValue.value;// インプットからの値
+        person[myDataName] = myDataValue; // person[名前] = 値
+
+
+        // String クラスのインスタンスで利用できるメソッドを使用しています。
+        // コードの中で文字列を作成するときにはいつでも、その文字列は自動的に String クラスのインスタンスとして生成されます。
+        // そしてそのために、いくつかの共通なメソッドやプロパティを使用することができます。
+        myString.split(',');
+
+        // Document クラスのインスタンスで使用可能なメソッドを使っています。
+        // 各ウェブページが読み込まれると、document と呼ばれる Document のインスタンスが作られ、それはウェブページ全体の構造、コンテンツ、その URL 等その他の機能を表現します。
+        // もう一度述べますが、これはいくつかの共通なメソッドやプロパティを使用できることを意味します。
+        const myDiv = document.createElement('div');
+        const myVideo = document.querySelector('video');
+
+        // 組み込みのオブジェクトと API では常に自動でオブジェクトのインスタンスが生成される訳ではないことを注意する必要があります。
+        // 例えば、モダンなブラウザーがシステム通知を発行することを許可する Notifications API では、発行したい各通知のためにコンストラクターを使用した新しいオブジェクトを生成する必要があります。
+        // JavaScript コンソールに次を入力してみてください。
+        // const myNotification = new Notification('Hello!');
+        // const btn = document.querySelector('button')
+        // btn.addEventListener('click', function() {
+        //     let promise = myNotification.requestPermission();
+        //     // wait for permission
+        // })
+
+    </script>
+</html>
