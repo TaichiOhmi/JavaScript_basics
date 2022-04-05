@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Object-oriented JavaScript example</title>
+  </head>
+
+  <body>
+    <p>This example requires you to enter commands in your browser's JavaScript console (see <a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/What_are_browser_developer_tools">What are browser developer tools</a> for more information).</p>
+
+  </body>
+
+    <script>
+        /*
+        :1 オブジェクトのテンプレートを定義
+            クラスを作成
+        :2 実際のオブジェクトの生成
+            クラスから、オブジェクトインスタンスを生成する。
+            オブジェクトインスタンスは、クラスで定義されたデータや機能を持ったオブジェクト。
+            クラスからオブジェクトインスタンスが生成されるとき、クラスのコンストラクター関数が生成のために実行される。
+            また、クラスからオブジェクトインスタンスが生成される過程をインスタンス化と呼ぶ。
+            オブジェクトインスタンスは、クラスをインスタンス化したものです。
+        :3 専門のクラス
+            OOP では、他のクラスを元にした新しいクラスを作ることができる。
+            これらの新しい子クラスは、親クラスからデータやコード機能を継承することができ、すべてのオブジェクトタイプに共通する機能を重複させずに再利用できる。
+            クラス間で機能が異なる場合は、必要に応じて特殊化された機能を直接定義することもできる。
+            例えば、人間というクラスを作成した後に、人間クラスを継承した教師クラスや生徒クラスを生成することができる。
+        */
+
+
+        // コンストラクターとオブジェクトインスタンス
+            // JavaScript では、オブジェクトやその機能を定義し初期化するためにコンストラクター関数と呼ばれる特殊な関数を使用する。
+            // コンストラクターは必要な数のオブジェクトを効率的な方法で作成し、必要に応じてデータや関数を付加する手段を提供する。
+
+        // function createNewPerson(name) {
+        //     const obj = {};
+        //     obj.name = name;
+        //     obj.greeting = function() {
+        //         alert('Hi! I\'m ' + obj.name + '.');
+        //     };
+        //     return obj;
+        // }
+        // Rewrite the above function below
+        // function Person(name) {
+        //     this.name = name;
+        //     this.greeting = function() {
+        //         alert('Hi! I\'m ' + this.name + '.');
+        //     };
+        // }
+            // コンストラクター関数は、 JavaScript 版のクラスです。
+            // それは関数に期待される全ての機能を持っていますが、何も返さないし、明示的にオブジェクトを生成しもしないという点に注意してください。
+            // 基本的には、プロパティとメソッドを定義するだけです。
+            // 加えて、 this キーワードが使われていることにも注意してください。
+            // 基本、オブジェクトインスタンスの 1 つが作成されるときにはいつでも、オブジェクトの name プロパティはコンストラクター呼び出しに渡される name 値と等しくなり、 greeting() メソッドもコンストラクター呼び出しに渡される name 値を使用します。
+
+        // Run in console
+        // const salva = createNewPerson('Salva');
+        // salva.name;
+        // salva.greeting();
+
+
+        // let person1 = new Person('Bob');
+        // let person2 = new Person('Sarah');
+        /*
+        いずれのケースでも、新しいオブジェクトインスタンスを生成したいとブラウザーに伝えるために new キーワードが使われており、その後に、括弧に必要なパラメーターを入れた関数名が続き、その結果が変数に格納されていて、一般的な関数の呼ばれ方とよく似ています。
+        どちらのインスタンスも、次の定義によって生成されています。
+        function Person(name) { // name -> 'Bob'/'Sarah'
+            this.name = name;
+            this.greeting = function() {
+                alert('Hi! I\'m ' + this.name + '.');
+            };
+        }
+        */
+
+
+        // Run in console
+        // person1.name
+        // person1.greeting()
+        // person2.name
+        // person2.greeting()
+        /*
+        素晴らしい！
+        2 つの新しいオブジェクトが、異なる名前空間の下でページに格納されていることが確認できます。
+        それらのプロパティとメソッドにアクセスするときには、 person1 または person2 を呼び出すことから始めなければなりません。
+        中に含まれている機能は適切にパッケージ化されており、他の機能と衝突しないようになっています。
+        しかしながら、それらは同じように name プロパティと greeting() メソッドが利用可能です。 
+        2 つのオブジェクトはそれぞれ、生成されたときに割り当てられた、自身の name 値を使っていることに注意してください。
+        これが this を使うことがとても重要である理由の 1 つであり、他の値ではなく、自身の値を使っているのです。
+        */
+
+
+        
+        // 最終的なコンストラクターの作成
+        function Person(first, last, age, gender, interests) {
+            this.name = {
+                first : first,
+                last : last
+            };
+            this.age = age;
+            this.gender = gender;
+            this.interests = interests;
+            this.bio = function() {
+                alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+            };
+            this.greeting = function() {
+                alert('Hi! I\'m ' + this.name.first + '.');
+            };
+        }
+        // インスタンス作成
+        let person1 = new Person('Bob', 'Smith', 32, 'male', ['music', 'skiing']);
+
+
+
+
+
+
+
+        // オブジェクトインスタンスを生成する他の方法
+            // Object() コンストラクター
+            //　Object() コンストラクターを新しいオブジェクトの生成のために使うことができます。
+            // 一般的なオブジェクトにも、空のオブジェクトを生成するコンストラクターがあります。
+            /*
+            let person1 = new Object();
+            person1.name = 'Chris';
+            person1['age'] = 38;
+            person1.greeting = function() {
+                alert('Hi! I\'m ' + this.name + '.');
+            };
+            */
+            /*
+            let person1 = new Object({
+                name: 'Chris',
+                age: 38,
+                greeting: function() {
+                    alert('Hi! I\'m ' + this.name + '.');
+                }
+            });
+            */
+
+            // create() メソッドの使用
+            // let person2 = Object.create(person1);
+            // person2.name;
+            // person2.greeting();
+            // person1 を基に person2 が生成され、person2 では同じプロパティとメソッドが利用可能
+
+    </script>
+</html>
