@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Our superheroes</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+
+      <header>
+
+      </header>
+
+      <section>
+
+      </section>
+
+      <script>
+        const header = document.querySelector('header');
+        const section = document.querySelector('section');
+
+        // JSON の取得
+            // JSON を取得するには、XMLHttpRequest (しばしば XHR と呼ばれる) という API を使用します。
+            // これは JavaScript オブジェクトで、JavaScript を使用してサーバーからリソース (例：画像、テキスト、JSON、さらには HTML スニペットなど) を取得するネットワークリクエストを行うことができます。
+            // つまりページ全体を再読み込みせずに、小さな部分のコンテンツを更新することができます。
+            // これにより、よりレスポンシブなウェブページを作成できますが、それをもっと詳細に教えるのはこの記事の範囲を超えています。
+
+
+            // 取得したい JSON がある URL を変数へ代入。
+            let requestURL = 'https://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json';
+            //　HTTP リクエストを作成するため、 XMLHttpRequest コンストラクターに new を使って、新しいインスタンスを作成する
+            let request = new XMLHttpRequest();
+            // 新しいリクエストを開始するには、 open() メソッドを使う。
+            request.open('GET', requestURL);
+                // XMLHttpRequest の open() メソッドは、新しく作成されたリクエストを初期化したり、既存のリクエストを再初期化したりします。
+                // このメソッドは最低 2 つの引数を取ります（他に任意の引数を与えることもできます）。
+                // 今回の簡単な例では、必須の引数 2 つだけ必要です。
+                    // リクエストを開始する際に HTTP のメソッドを決める必要があります。今回のケースでは、単純にデータを取得するだけですので GET が良いでしょう。
+                    // リクエストを送る先の URL。今回は JSON ファイルを置いた URL です。
+            // XHR オブジェクトがサーバーから返されるデータを判断できるように responseType に JSON を指定。
+            // この場合、ブラウザー側で JavaScript オブジェクトへ変換してくれます。
+                // XMLHttpRequest (XHR) の responseType プロパティは列挙型の文字列値で、レスポンスに含まれているデータの型を示します。
+            request.responseType = 'json';
+            // それから、 send() メソッドでリクエストを送信します。
+                // XMLHttpRequest の send() メソッドは、リクエストをサーバーに送信します。
+                // リクエストが非同期の場合 (これが既定)、このメソッドはリクエストが送信されるとすぐに戻り、結果はイベントを用いて配信されます。リクエストが同期の場合、このメソッドはレスポンスが到着するまで戻りません。
+                // send() はリクエストの本文を示す引数を一つ受け取ることができます。
+                // これは主に PUT のようなリクエストに使用されます。リクエストメソッドが GET または HEAD であれば、 引数は無視され、リクエストの本文は null に設定されます。
+            request.send();
+            // サーバーからのレスポンスを待ち、それを処理するコードを用意する。
+            request.onload = function() {
+
+                const superHeroes = request.response;
+                // ここでは 、先ほどのリクエストに対するレスポンス（response プロパティから取得できます）を superHeroes と いう変数へ代入しています。
+                // つまり、この変数に JSON を元に生成された JavaScript オブジェクトが格納されているということです。
+
+                // それから 2 つの関数をそのオブジェクトを引数として与えて呼び出しています。
+
+                populateHeader(superHeroes);
+                // 最初の関数は引数のデータを <header> へ埋め込み、
+
+                showHeroes(superHeroes);
+                // 2 つ目は各ヒーローごとの情報カードを作り、<section> へ埋め込みます。
+            }
+
+            // 上記の処理は、リクエストオブジェクトで load イベントが発生した時に呼び出されるイベントハンドラー（onload を参照）に記述しました。このイベントは、レスポンスがうまく取得できた場合に呼び出されるので、 request.response を使って何か処理をしようとしたときに、それが必ず利用できることが保証されています。
+
+
+        // ヘッダーへの値の設定
+            // ここまでで、JSON の取得と JavaScript オブジェクトへの変換ができました、
+            // 先ほどの 2 つの関数を実装して使ってみましょう。
+            function populateHeader(obj) {
+
+                // まず、 <h1> 要素を createElement() で生成、
+                const myH1 = document.createElement('h1');
+
+                // その textContent プロパティにそのオブジェクトの squadName プロパティを設定、
+                myH1.textContent = obj['squadName'];
+
+                // そしてそれを appendChild() で header に追加。
+                header.appendChild(myH1);
+
+
+
+                // そして、段落についても同様に、要素を生成し、
+                const myPara = document.createElement('p');
+
+                // 内容のテキストを設定し、 
+                myPara.textContent = 'Hometown: ' + obj['homeTown'] + ' // Formed: ' + obj['formed'];
+                
+                // header に追加します。
+                header.appendChild(myPara);
+
+                // <h1>要素との違いは、設定するテキストがこのオブジェクトの homeTown と formed の各プロパティを結合したものであるという点だけです。
+            }
+
+
+        // ヒーロー情報カードの作成
+        function showHeroes(obj) {
+            // JavaScript オブジェクトの members プロパティを新しい変数に保存。
+            // この配列には複数のオブジェクトがあり、それぞれにヒーローについての情報が入ります
+            const heroes = obj['members'];
+
+            // for ループを使って配列のそれぞれのオブジェクトを反復処理
+            for (let i = 0; i < heroes.length; i++) {
+
+                // 新しい要素をいくつか作成。
+                // <article> 1 つ、 <h2> 1 つ、 <p> 3 つ、<ul> 1 つ。
+                const myArticle = document.createElement('article');
+                const myH2 = document.createElement('h2');
+                const myPara1 = document.createElement('p');
+                const myPara2 = document.createElement('p');
+                const myPara3 = document.createElement('p');
+                const myList = document.createElement('ul');
+
+                // <h2> の中身を現在のヒーローの名前 (name) に。
+                myH2.textContent = heroes[i].name;
+                // 3 つの段落の中身を、それぞれに合う言葉で始まるようにする。
+                // secretIdentity、 
+                myPara1.textContent = 'Secret identity: ' + heroes[i].secretIdentity;
+                // age、
+                myPara2.textContent = 'Age: ' + heroes[i].age;
+                // リストにある情報を紹介していくために「超能力 ("Superpowers:")」
+                myPara3.textContent = 'Superpowers:';
+
+                // powers プロパティを superPowers という新しい定数に保存します。
+                // この定数は今のヒーローの超能力のリストを持つ配列です。
+                const superPowers = heroes[i].powers;
+                // for ループを使用して、今のヒーローの超能力を反復処理します。
+                for (let j = 0; j < superPowers.length; j++) {
+                    // それぞれに対して <li> 要素を作成し、
+                    const listItem = document.createElement('li');
+                    // 中に超能力を入れ、 
+                    listItem.textContent = superPowers[j];
+                    // listItem を <ul> 要素（myList）に appendChild() で追加。
+                    myList.appendChild(listItem);
+                }
+
+                // 最後に、 <h2>、<p>、<ul> を <article> (myArticle) の中に追加し、
+                myArticle.appendChild(myH2);//h2
+                myArticle.appendChild(myPara1);//p
+                myArticle.appendChild(myPara2);//p
+                myArticle.appendChild(myPara3);//p
+                myArticle.appendChild(myList);//ul
+                // その <article> を <section> の中に追加。
+                // これらを追加する順序は重要で、これが HTML の中で表示される順序になります。
+                section.appendChild(myArticle);
+            }
+        }
+
+
+        // オブジェクトとテキスト間の変換
+            // 上記の例では、 XHR リクエストで JSON レスポンスを直接 JavaScript オブジェクトに変換するように設定したため、 JavaScript オブジェクトへのアクセスはシンプルでした。
+            // request.responseType > 'json'
+
+            // しかし、時にはそれほど幸運ではないこともあります。
+            // 生の JSON 文字列を受け取り、それを自分自身でオブジェクトに変換する必要がある場合もあります。
+            // また、 JavaScript のオブジェクトをネットワーク経由で送信したい場合、送信前に JSON （文字列）に変換する必要があります。
+            // 幸い、この 2 つの問題はウェブ開発ではよくあることなので、ブラウザーでは組み込みの JSON オブジェクトが利用でき、それには 2 つのメソッドが備わっています。
+
+                // ① parse(): JSON 文字列を引数に取り、それに対する JavaScript オブジェクトを返す。
+                // XHR では生の JSON 文字列を返すようにして、
+                request.open('GET', requestURL);
+                request.responseType = 'text'; // now we're getting a string!
+                request.send();
+                
+                request.onload = function() {
+                    const superHeroesText = request.response; // get the string from the response
+                    // それを parse() で JavaScript オブジェクトに変換している。
+                    const superHeroes = JSON.parse(superHeroesText); // convert it to an object
+                    populateHeader(superHeroes);
+                    showHeroes(superHeroes);
+                }
+
+                // ② stringify(): オブジェクトを引数に取り、等価な JSON 文字列を返す。
+                let myObj = { name: "Chris", age: 38 };// >{name: 'Chris', age: 38}
+                let myString = JSON.stringify(myObj);// >'{"name":"Chris","age":38}'
+
+                
+
+
+      </script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple JSON example</title>
+  </head>
+
+  <body>
+
+    <script>
+    // JSON の構造
+        // JSON では通常の JavaScript オブジェクトと同様な基本データ型（文字列、数値、配列、論理型やその他のリテラル型）を使用可能。
+    const superHeroes = {
+      "squadName" : "Super hero squad",
+      "homeTown" : "Metro City",
+      "formed" : 2016,
+      "secretBase" : "Super tower",
+      "active" : true,
+      "members" : [
+        {
+          "name" : "Molecule Man",
+          "age" : 29,
+          "secretIdentity" : "Dan Jukes",
+          "powers" : [
+            "Radiation resistance",
+            "Turning tiny",
+            "Radiation blast"
+          ]
+        },
+        {
+          "name" : "Madame Uppercut",
+          "age" : 39,
+          "secretIdentity" : "Jane Wilson",
+          "powers" : [
+            "Million tonne punch",
+            "Damage resistance",
+            "Superhuman reflexes"
+          ]
+        },
+        {
+          "name" : "Eternal Flame",
+          "age" : 1000000,
+          "secretIdentity" : "Unknown",
+          "powers" : [
+            "Immortality",
+            "Heat Immunity",
+            "Inferno",
+            "Teleportation",
+            "Interdimensional travel"
+          ]
+        }
+      ]
+    }
+
+        // superHeroes.homeTown > 'Metro City'
+        // superHeroes.active > true
+        // superHeroes['active'] > true
+        // superHeroes['members'][1]['powers'][2] > 'Superhuman reflexes'
+
+
+    // JSON の配列
+    const arrayHeroes = 
+    [
+        {
+            "name": "Molecule Man",
+            "age": 29,
+            "secretIdentity": "Dan Jukes",
+            "powers": [
+            "Radiation resistance",
+            "Turning tiny",
+            "Radiation blast"
+            ]
+        },
+        {
+            "name": "Madame Uppercut",
+            "age": 39,
+            "secretIdentity": "Jane Wilson",
+            "powers": [
+            "Million tonne punch",
+            "Damage resistance",
+            "Superhuman reflexes"
+            ]
+        }
+    ]
+
+        // 配列にしたJSONデータには配列のインデックスを指定するだけです。
+        // 例えば、[0]["powers"][0]のように表記できます。
+        // arrayHeroes[0]["powers"][0] > 'Radiation resistance'
+
+    // その他の注意点
+        // JSON は指定されたデータ形式の純粋な文字列です。
+        // プロパティのみを含むことができ、メソッドを含むことはできません。
+        // JSON では文字列とプロパティ名を二重引用符で括る必要があります。
+        // 単一引用符は、JSON 文字列全体を囲む以外では無効です。
+        // カンマやコロンが 1 つ抜けるだけでも JSON ファイルは無効になり、動作しません。
+        // 利用しようとしているデータを注意して確認してください（プログラムに問題がない限り、コンピューターが生成した JSON の方が、エラーが含まれる可能性が低くなります）。 
+        // JSONLint のようなアプリケーションを使って妥当性を検証をすることもできます。
+        // JSONは、配列やオブジェクトだけでなく、 JSON 内部に入れることができるあらゆるデータ型のデータだけでも有効なものになります。
+        // つまり、例えば、単一の文字列や数値も有効な JSON となります。
+        // JavaScript コードではプロパティを引用符で括らなくても構いませんが、 JSON では、引用符でくくった文字列だけがプロパティとして扱われます。
+    </script>
+  </body>
+</html>
