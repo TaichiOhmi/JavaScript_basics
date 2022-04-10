@@ -119,16 +119,16 @@ class EvilCircle extends Shape{
       // _をつけると自動でprivate property
       let _this = this; //この行はスコープの関係で必要
       window.onkeydown = function(e) {
-         if (e.key === 'a') {
+         if (e.key === 'ArrowLeft') {
             _this.x -= _this.velX;
          }
-         else if (e.key === 'd') {
+         else if (e.key === 'ArrowRight') {
             _this.x += _this.velX;
          }
-         else if (e.key === 'w') {
+         else if (e.key === 'ArrowUp') {
             _this.y -= _this.velY;
          }
-         else if (e.key === 's') {
+         else if (e.key === 'ArrowDown') {
             _this.y += _this.velY;
          }
       }
