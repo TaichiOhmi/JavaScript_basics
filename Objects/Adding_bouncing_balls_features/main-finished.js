@@ -18,17 +18,16 @@ function randomRGB() {
   return `rgb(${random(0, 255)},${random(0, 255)},${random(0, 255)})`;
 }
 
-class Ball {
+class Shape {
 
-   constructor(x, y, velX, velY, color, size) {
+   constructor(x, y, velX, velY, exists) {
       this.x = x;
       this.y = y;
       this.velX = velX;
       this.velY = velY;
-      this.color = color;
-      this.size = size;
+      this.exists = exists
    }
-
+   
    draw() {
       ctx.beginPath();
       ctx.fillStyle = this.color;
@@ -73,6 +72,18 @@ class Ball {
 
 }
 
+class Ball extends Shape {
+
+   constructor(x, y, velX, velY, exists, color, size) {
+      super(x, y, velX, velY, exists);
+      this.color = color;
+      this.size = size;
+   }
+
+}
+
+
+
 const balls = [];
 
 while (balls.length < 25) {
@@ -84,6 +95,7 @@ while (balls.length < 25) {
       random(0 + size,height - size),
       random(-7,7),
       random(-7,7),
+      true,
       randomRGB(),
       size
    );
