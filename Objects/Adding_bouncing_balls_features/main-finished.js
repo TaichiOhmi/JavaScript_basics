@@ -20,12 +20,21 @@ function randomRGB() {
 
 class Shape {
 
-   constructor(x, y, velX, velY, exists) {
+   constructor(x, y, velX, velY) {
       this.x = x;
       this.y = y;
       this.velX = velX;
       this.velY = velY;
-      this.exists = exists
+      this.exists = true;
+   }
+}
+
+class Ball extends Shape {
+
+   constructor(x, y, velX, velY, color, size) {
+      super(x, y, velX, velY);
+      this.color = color;
+      this.size = size;
    }
    
    draw() {
@@ -72,21 +81,81 @@ class Shape {
 
 }
 
-class Ball extends Shape {
+class EvilCircle extends Shape{
 
-   constructor(x, y, velX, velY, exists, color, size) {
-      super(x, y, velX, velY, exists);
-      this.color = color;
-      this.size = size;
+   constructor(x, y){
+      super(x, y, 20, 20);
+      this.color = 'white';
+      this.size = 10;
    }
 
+   draw(){
+      ctx.beginPath();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = this.color;
+      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+      ctx.stroke();
+   }
+
+   checkBounds(){
+      if ((this.x + this.size) >= width) {
+         this.x -= this.size;
+      }
+   
+      if ((this.x - this.size) <= 0) {
+         this.x += this.size;
+      }
+   
+      if ((this.y + this.size) >= height) {
+         this.y -= this.size;
+      }
+   
+      if ((this.y - this.size) <= 0) {
+         this.y += this.size;
+      }
+   }
+
+   setControl(){
+      // _をつけると自動でprivate property
+      let _this = this; //この行はスコープの関係で必要
+      window.onkeydown = function(e) {
+         if (e.key === 'a') {
+            _this.x -= _this.velX;
+         }
+         else if (e.key === 'd') {
+            _this.x += _this.velX;
+         }
+         else if (e.key === 'w') {
+            _this.y -= _this.velY;
+         }
+         else if (e.key === 's') {
+            _this.y += _this.velY;
+         }
+      }
+   }
+
+   collisionDetect(){
+      for (const ball of balls) {
+         if (ball.exists) {
+            const dx = this.x - ball.x;
+            const dy = this.y - ball.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+   
+            if (distance < this.size + ball.size) {
+              ball.exists = false;
+              ballcount--;
+              p.textContent = 'Ball count: ' + ballcount;
+            }
+         }
+      }
+   }
 }
 
 
-
 const balls = [];
+let ballcount = 25;
 
-while (balls.length < 25) {
+while (balls.length < ballcount) {
    const size = random(10,20);
    const ball = new Ball(
       // ball position always drawn at least one ball width
@@ -95,7 +164,6 @@ while (balls.length < 25) {
       random(0 + size,height - size),
       random(-7,7),
       random(-7,7),
-      true,
       randomRGB(),
       size
    );
@@ -106,14 +174,25 @@ while (balls.length < 25) {
 function loop() {
    ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
    ctx.fillRect(0, 0,  width, height);
-
+   
    for (const ball of balls) {
-     ball.draw();
-     ball.update();
-     ball.collisionDetect();
+      if (!(ball.exists === false)){
+         ball.draw();
+         ball.update();
+         ball.collisionDetect();
+      }
+      evilCircle.draw();
+      evilCircle.checkBounds();
+      evilCircle.collisionDetect();
    }
-
+   
    requestAnimationFrame(loop);
 }
+
+let p = document.querySelector('p')
+p.textContent = 'Ball count: ' + ballcount;
+
+const evilCircle = new EvilCircle(random(0 + random(10,20),width - random(10,20)), random(0 + random(10,20),height - random(10,20)));
+evilCircle.setControl();
 
 loop();
