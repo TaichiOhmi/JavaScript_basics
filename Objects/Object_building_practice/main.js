@@ -68,7 +68,7 @@ Ball.prototype.draw = function(){// Ball Object の prototype に draw() method/
 // Ball の prototype に update method/function を追加。
 Ball.prototype.update = function() {
 
-    // ボールの右端(x座標 - 半径)がキャンバスの右端から飛び出そうとしたら、
+    // ボールの右端(x座標 + 半径)がキャンバスの右端から飛び出そうとしたら、
     if ((this.x + this.size) >= width) { // x座標(円の中心) + 半径 が width 以上か
         this.velX = -(this.velX);// velX を 逆向きに
     }
