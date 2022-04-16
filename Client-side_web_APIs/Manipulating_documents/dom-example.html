@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple DOM example</title>
+    <style>
+        .highlight {
+          color: white;
+          background-color: black;
+          padding: 10px;
+          width: 250px;
+          text-align: center;
+        }
+    </style>
+  </head>
+  <body>
+      <section>
+        <img src="dinosaur.png" alt="A red Tyrannosaurus Rex: A two legged dinosaur standing upright like a human, with small arms, and a large head with lots of sharp teeth.">
+        <p>Here we will add a link to the <a href="https://www.mozilla.org/">Mozilla homepage</a></p>
+      </section>
+      <script>
+          // 基本的なDOM操作
+
+          const link = document.querySelector('a');
+          link.textContent = 'Mozilla Developer Network';
+          link.href = 'https://developer.mozilla.org';
+
+          // 新しいノードの作成と配置
+          const sect = document.querySelector('section');
+          const para = document.createElement('p');
+          para.textContent = 'We hope you enjoyed the ride.';
+          sect.appendChild(para);
+          const text = document.createTextNode(' — the premier source for web development knowledge.');
+          const linkPara = document.querySelector('p');
+          linkPara.appendChild(text);
+
+          // You could clone link para by doing something like this and inserting the new para instead
+          // var newPara = linkPara.cloneNode(true);
+
+          // 要素の移動や削除
+          sect.appendChild(linkPara);//これはlinkParaのコピーが作成されるだけみたいに見えるが、linkParaは'p'の唯一の参照のコピーだからそうならない。もし、本当のコピー(クローン)が必要なら、Node.cloneNode()を使わないといけない。
+          // linkPara.parentNode(linkPara);
+          sect.removeChild(linkPara);//削除したいノードとその親ノードへの参照を得ていれば、ノード削除も簡単。
+          linkPara.remove();//削除したいノードそのものの参照しか無い場合これも可能。
+
+
+
+          // スタイルを操作
+
+          //para.style.color = 'white';
+          //para.style.backgroundColor = 'black';
+          //para.style.padding = '10px';
+          //para.style.width = '250px';
+          //para.style.textAlign = 'center';
+
+          para.setAttribute('class', 'highlight');
+      </script>
+  </body>
+</html>
