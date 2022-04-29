@@ -1,0 +1,6 @@
+https://github.com/mdn/learning-area/tree/main/javascript/apis/client-side-storage/indexeddb/video-store
+
+A service worker example
+  https://mdn.github.io/learning-area/javascript/apis/client-side-storage/cache-sw/video-store-offline/
+
+  https://github.com/mdn/learning-area/tree/main/javascript/apis/client-side-storage/cache-sw/video-store-offline
